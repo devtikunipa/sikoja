@@ -16,7 +16,7 @@ const Sikojas = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        APIGETALL.Sikoja().then(result => {
+        APIGETALL.Sikojas().then(result => {
             setData(result.data);
             setIsLoading(false);
             console.log(result.data);

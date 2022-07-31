@@ -1,8 +1,8 @@
-import http from './http';
+import Http from './Http';
 
 const GetAll = (path) => {
     return new Promise((resolve, reject) => {
-        http.get(path).
+        Http.get(path).
             then(result => {
                 resolve(result.data);
             }).catch(error => {
@@ -11,7 +11,9 @@ const GetAll = (path) => {
     })
 }
 
-const Sikoja = () => GetAll('sikoja');
+const Sikojas = () => GetAll('sikoja');
+const Villages = () => GetAll('village');
+const Streets = () => GetAll('street');
 // const Sikoja = async () => {
 //     try {
 //         const result = GetAll('sikoja');
@@ -21,7 +23,9 @@ const Sikoja = () => GetAll('sikoja');
 //     }
 // }
 const APIGETALL = {
-    Sikoja,
+    Sikojas,
+    Villages,
+    Streets,
 }
 
 export default APIGETALL

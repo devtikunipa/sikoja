@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -6,55 +6,124 @@ import Card from '@mui/material/Card';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import CardContent from '@mui/material/CardContent';
-import CardActionArea from '@mui/material/CardActionArea';
+import CardActions from '@mui/material/CardActions';
 import Typograph from '../../components/Typograph';
-import Dropzone from '../../components/Dropzone';
-import Maps from './Map';
+import APIGETALL from '../../services/axios/GetAll';
+import Alert from '@mui/material/Alert';
+import APISTORE from '../../services/axios/Store';
+import Paper from '@mui/material/Paper';
+import Input from '@mui/material/Input';
+import { useDropzone } from 'react-dropzone';
+import ReactPlayer from 'react-player';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import APIUPLOAD from '../../services/axios/Upload';
 
-const currencies = [
-    {
-        index: 1,
-        street: 'Jl satu',
-    },
-    {
-        index: 2,
-        street: 'Jalan dua',
-    },
-    {
-        index: 3,
-        street: 'jalan tiga',
-    },
-    {
-        index: 4,
-        street: 'Jalan empat',
-    },
-];
-
-const categories = [
-    {
-        index: 1,
-        category: "Kerusakan Parah"
-    },
-    {
-        index: 2,
-        category: "Kerusakan Sedang"
-    },
-    {
-        index: 3,
-        category: "Kerusakan Biasa"
-    }
-];
 
 const FormSikoja = () => {
-    const [street, setStreet] = useState(0);
-    const [category, setCategories] = useState(1);
+    const initialDataState = {
+        title: '',
+        description: '',
+        village_id: null,
+        street_id: null,
+        name: '',
+        hp: null,
 
-    const handleSelected = (event) => {
-        setCategories(event.target.value);
+    }
+
+    const [data, setData] = useState(initialDataState);
+    const [streets, setStreets] = useState([]);
+    const [villages, setVillages] = useState([]);
+    const [message, setMessage] = useState({ msg: 'Belum ada aktivitas', status: false, code: 201 });
+    const [files, setFiles] = useState([]);
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop: acceptedFiles => {
+            setFiles(acceptedFiles.map(file => Object.assign(file, {
+                preview: URL.createObjectURL(file)
+            })));
+        },
+        accept: {
+            'image/png': ['.png'],
+            'image/jpeg': ['.jpg', '.jpeg'],
+            'video/mp4': ['.mp4']
+        },
+        maxFiles: 4,
+        maxSize: 10240000,
+
+    });
+
+    const thumbs = files.map(file => {
+        if (file.type == 'video/mp4') {
+            return (
+                <ReactPlayer key={file.name} height='100%' width='100%' controls url={file.preview} />
+            )
+        } else {
+            return (
+                <ImageListItem key={file.name} cols={1} rows={1}>
+                    <img
+                        src={file.preview}
+                        alt={file.name}
+                        loading="lazy"
+                    />
+                </ImageListItem>
+            )
+        }
+    });
+
+
+    useEffect(() => {
+        APIGETALL.Streets().then(result => {
+            setStreets(result.data)
+        });
+        APIGETALL.Villages().then(result => {
+            setVillages(result.data)
+        });
+    }, []);
+
+    const handleOnChange = (event) => {
+        const { name, value } = event.target;
+        setData({ ...data, [name]: value });
+        setMessage({ status: false });
     };
+    const handleOnSelectedVillage = (event, newValue) => {
+        const id = newValue.id;
+        setData({ ...data, village_id: id })
+    }
+    const handleOnSelectedStreet = (event, newValue) => {
+        const id = newValue.id;
+        setData({ ...data, street_id: id })
+    }
+
+    const handleOnSubmit = (event) => {
+        event.preventDefault();
+        APISTORE.StoreSikoja(data).then(result => {
+            // console.log(result.data);
+            setMessage({ code: 201, msg: "Laporan telah disampaikan", status: true });
+            for (let file of files) {
+                const data2 = new FormData();
+                data2.append('galery', file)
+                data2.append('sikoja_id', result.data.id)
+                APIUPLOAD.UploadGalery(data2).then(result => {
+                    setData({
+                        title: '',
+                        description: '',
+                        village_id: null,
+                        street_id: null,
+                        name: '',
+                        hp: null,
+                    });
+                    setFiles([]);
+                }).catch(error => {
+                    console.log(`error ${error}`)
+                })
+            }
+        }).catch(error => {
+            setMessage({ code: 400, msg: error.message, status: true })
+            console.log(`error: ${error.message}`);
+        });
+    }
 
     return (
         <Container maxWidth="lg" sx={{ mx: "auto", mt: 6 }}>
@@ -63,60 +132,68 @@ const FormSikoja = () => {
                     <Card
                         sx={{ height: '100%', display: 'flex', flexDirection: 'column', px: 3 }}
                     >
-                        <form onSubmit={() => { }}>
+                        <form onSubmit={handleOnSubmit}>
                             <CardContent>
                                 <Typograph text="SIKOJA" gutterBottom variant="h5" textTransform='uppercase' fontWeight='bold' sx={{ py: 2 }} />
+                                <Alert severity={message.code == 201 ? 'success' : 'error'} sx={{ mb: 2, display: `${message.status ? 'flex' : 'none'}` }} >{message.msg}</Alert>
                                 <FormControl fullWidth >
-                                    <TextField required id="title" label="Judul Laporan Anda" variant="outlined" />
-                                    <TextField required id="title" multiline rows={4} label="Isi Laporan Anda" variant="outlined" sx={{ mt: 2 }} />
-                                    <Autocomplete disablePortal
-                                        id="combo-box-demo"
-                                        options={currencies}
+                                    <TextField required id="title" name='title' label="Judul Laporan Anda" variant="outlined" value={data.title} onChange={handleOnChange} />
+                                    <TextField required id="description" name='description' multiline rows={4} label="Isi Laporan Anda" variant="outlined" value={data.description} onChange={handleOnChange} sx={{ mt: 2 }} />
+                                    <Autocomplete
+                                        id="village_id"
+                                        name='village_id'
+                                        options={villages}
                                         sx={{ mt: 2 }}
-                                        getOptionLabel={(currencies) => `${currencies.street}`}
+                                        getOptionLabel={(villages) => `${villages.village}`}
                                         noOptionsText='Nama Kampung Tidak Ditemukan'
-                                        renderInput={(params) => <TextField {...params} label="Nama Kampung" />}
-                                        onChange={(_, street) => setStreet(street.index)}
+                                        renderInput={(params) => <TextField {...params} required label="Nama Kampung" />}
+                                        onChange={handleOnSelectedVillage}
                                     />
                                     <Autocomplete disablePortal
-                                        id="combo-box-demo"
-                                        options={currencies}
+                                        id="street_id"
+                                        name='street_id'
+                                        options={streets}
                                         sx={{ mt: 2 }}
-                                        getOptionLabel={(currencies) => `${currencies.street}`}
+                                        getOptionLabel={(streets) => `${streets.street}`}
                                         noOptionsText='Nama Jalan Tidak Ditemukan'
-                                        renderInput={(params) => <TextField {...params} label="Nama Jalan" />}
-                                        onChange={(_, street) => setStreet(street.index)}
+                                        renderInput={(params) => <TextField {...params} required label="Nama Jalan" />}
+                                        onChange={handleOnSelectedStreet}
                                     />
-                                    <TextField
-                                        id="outlined-select-currency"
-                                        select
-                                        label="Kategori Laporan"
-                                        value={category}
-                                        onChange={handleSelected}
-                                        sx={{ mt: 2, textAlign: 'left' }}
-                                    >
-                                        {categories.map((option) => (
-                                            <MenuItem key={option.index} value={option.index} >
-                                                {option.category}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
                                     <Grid container sx={{ mt: 1 }} spacing={2}>
                                         <Grid item lg={7} md={12} xs={12}>
-                                            <TextField fullWidth required id="title" label="Nama Anda" variant="outlined" />
+                                            <TextField fullWidth required id="name" name='name' label="Nama Anda" value={data.name} variant="outlined" onChange={handleOnChange} />
                                         </Grid>
                                         <Grid item lg={5} md={12} xs={12}>
-                                            <TextField fullWidth required id="title" label="Nomor Hp Anda" variant="outlined" />
+                                            <TextField fullWidth required id="hp" name='hp' type='number' label="Nomor Hp Anda (08...)" variant="outlined" value={!data.hp ? '' : data.hp} onChange={handleOnChange} />
                                         </Grid>
                                     </Grid>
-                                    {/* <TextField fullWidth required id="title" type="file" placeholder='Upload foto' variant="outlined" sx={{ mt: 2 }} /> */}
-                                    <Dropzone />
-                                    {/* <Maps /> */}
+                                    <Paper sx={{ cursor: 'pointer', background: '#fafafa', color: '#bdbdbd', border: '1px dashed #ccc', '&:hover': { border: '1px solid #ccc' }, mt: 2 }}>
+                                        <div style={{ padding: '20px', height: 'auto' }} {...getRootProps()}>
+                                            <Input {...getInputProps()} />
+                                            {isDragActive ? (
+                                                <Typograph variant='subtitle1' text='Drop disini..' color='primary.main' />
+                                            ) : (
+                                                <Typograph variant='subtitle1' text='Drag & Drop atau klik untuk memilih gambar..' />
+                                            )}
+                                        </div>
+                                    </Paper>
+                                    {files.length != 0 ? (
+                                        <Container >
+                                            <ImageList
+                                                sx={{ width: '100', height: 'auto' }}
+                                                variant="quilted"
+                                                cols={4}
+                                                rowHeight={121}
+                                            >
+                                                {thumbs}
+                                            </ImageList>
+                                        </Container>
+                                    ) : null}
                                 </FormControl>
                             </CardContent>
-                            <CardActionArea sx={{ px: 2, pb: 4, pt: 1 }}>
+                            <CardActions sx={{ px: 2, pb: 4, pt: 1 }}>
                                 <Button fullWidth type='submit' variant='contained' onClick={() => { }}>Lapor</Button>
-                            </CardActionArea>
+                            </CardActions>
                         </form>
                     </Card>
                 </Grid>

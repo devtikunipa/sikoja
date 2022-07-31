@@ -1,8 +1,8 @@
-import http from './http';
+import Http from './Http';
 
 const GetOne = (path) => {
     return new Promise((resolve, reject) => {
-        http.get(path).
+        Http.get(path).
             then(result => {
                 resolve(result.data);
             }).catch(error => {

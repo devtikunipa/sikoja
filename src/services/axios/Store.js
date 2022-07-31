@@ -1,21 +1,21 @@
-import http from './http';
+import Http from './Http';
 
 const Store = (path, data) => {
     return new Promise((resolve, reject) => {
-        http.post(path, data).
+        Http.post(path, data).
             then(result => {
                 resolve(result.data);
             }).catch(error => {
-                reject(error.message);
+                reject(error);
             })
     })
 }
 
-const StoreSikoja = (id) => GetOne('sikoja/', data);
+const StoreSikoja = (data) => Store('sikoja', data);
 
 const APISTORE = {
     StoreSikoja,
 }
 
 
-export default APIGETONE
+export default APISTORE

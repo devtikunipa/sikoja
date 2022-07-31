@@ -8,23 +8,39 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import CardActions from '@mui/material/CardActions';
 import Moment from '../../components/Moment';
+import ReactPlayer from 'react-player';
 
 const ListSikoja = (props) => {
     const { data } = props;
     return (
-        <Grid container spacing={4}>
+        <Grid container spacing={3} sx={{ mt: { xs: 1 } }} >
             {data.map((dt) => (
                 <Grid item key={dt.id} xs={12} sm={6} md={4}>
                     <CardActionArea component="a" href={'/detail/' + dt.id} >
                         <Card
-                            sx={{ display: 'flex', flexDirection: 'column' }}
+                            sx={{ display: 'flex', flexDirection: 'column', borderRadius: 1.5 }}
                         >
-                            <CardMedia
-                                component="img"
-                                sx={{ height: '250px' }}
-                                image={'http://localhost:8000/' + dt.galery.path}
-                                alt="random"
-                            />
+                            {
+                                dt.galery.map((paths, index) => {
+                                    if (index === 0) {
+                                        const name = paths.filename.split(".");
+                                        if (name[1] == 'mp4') {
+                                            return (
+                                                <ReactPlayer key={index} height='100%' width='100%' controls url={'http://localhost:8000/' + paths.path} playing={true} />
+                                            )
+                                        } else {
+                                            return (
+                                                <CardMedia key={index}
+                                                    component="img"
+                                                    sx={{ height: '250px' }}
+                                                    image={'http://localhost:8000/' + paths.path}
+                                                    alt="random"
+                                                />
+                                            )
+                                        }
+                                    }
+                                })
+                            }
                             <CardContent sx={{ flexGrow: 1, pb: 0 }}>
                                 <Typography gutterBottom variant="h5" component="h2">
                                     {dt.title}
