@@ -16,8 +16,7 @@ import Moment from '../../components/Moment';
 
 const TimeLine = (props) => {
     const { dataSikoja, dataDisp } = props;
-    console.log(dataSikoja);
-    console.log(dataDisp);
+
     return (
         <Timeline position="alternate" sx={{ bgcolor: 'primary.light', borderRadius: 2, py: 2 }}>
             <Typography variant='h5' fontWeight='bold'>Status Laporan</Typography>
@@ -36,7 +35,7 @@ const TimeLine = (props) => {
                     <TimelineDot color='error'>
                         <AssignmentIcon />
                     </TimelineDot>
-                    <TimelineConnector sx={{ bgcolor: dataDisp[0] ? 'warning.main' : '' }} />
+                    <TimelineConnector sx={{ bgcolor: dataDisp[0] ? 'warning.main' : 'grey' }} />
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: '12px', px: 2 }}>
                     <Typography component="span" color='primary.main' fontWeight='bold'>
@@ -53,21 +52,21 @@ const TimeLine = (props) => {
                     variant="body2"
                     color="text.secondary"
                 >
-                    <Typography>{dataDisp[0] ? Moment(dataDisp[0].created_at) : 'Belum ada aktivitas'}</Typography>
+                    <Typography>{dataDisp[0] ? Moment(dataDisp[0].created_at) : ''}</Typography>
                     <Typography variant='subtitile1'>Oleh Admin SIKOJA</Typography>
                 </TimelineOppositeContent>
                 <TimelineSeparator>
-                    <TimelineDot color={dataDisp[0] ? 'warning' : ''}>
+                    <TimelineDot sx={{ bgcolor: dataDisp[0] ? 'warning.main' : 'grey' }} >
                         <DriveFileMove />
                     </TimelineDot>
-                    <TimelineConnector sx={{ bgcolor: dataDisp.description ? 'success.main' : '' }} />
+                    <TimelineConnector sx={{ bgcolor: dataDisp[0] ? (dataDisp[0].description && dataDisp[0].estimation_date ? 'success.main' : '') : '' }} />
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: '12px', px: 2 }}>
-                    <Typography component="span" color={dataDisp[0] ? 'primary' : ''} fontWeight='bold'>
+                    <Typography component="span" color={dataDisp[0] ? 'primary' : 'text.secondary'} fontWeight='bold'>
                         Laporan Didisposisikan
                     </Typography>
-                    <Typography variant='subtitile2' paragraph align='right' textTransform='camelcase'>
-                        { dataDisp[0] ? `Laporan anda akan ditindak lanjuti oleh ${dataDisp[0].instance.instance}` : 'admin belum mendisposisikan laporan ini'}
+                    <Typography variant='subtitile2' paragraph align='right' textTransform='camelcase' color={dataDisp[0] ? 'grey.dark' : 'text.secondary'}>
+                        {dataDisp[0] ? `Laporan anda akan ditindak lanjuti oleh ${dataDisp[0].instance.instance}` : 'admin belum mendisposisikan laporan ini'}
                     </Typography>
                 </TimelineContent>
             </TimelineItem>
@@ -78,21 +77,21 @@ const TimeLine = (props) => {
                     variant="body2"
                     color="text.secondary"
                 >
-                    <Typography>1 hari lalu</Typography>
-                    <Typography variant='subtitile1'>Oleh: Dinas PU Provinsi</Typography>
+                    <Typography>{dataDisp[0] ? (dataDisp[0].description ? Moment(dataDisp[0].updated_at) : '') : ''}</Typography>
+                    <Typography variant='subtitile1'> {dataDisp[0] ? 'Oleh:' + dataDisp[0].instance.instance : ''}</Typography>
                 </TimelineOppositeContent>
                 <TimelineSeparator>
-                    <TimelineDot color="success" >
+                    <TimelineDot color={dataDisp[0] ? (dataDisp[0].description ? 'success' : 'grey') : 'grey'} >
                         <PendingActionsIcon />
                     </TimelineDot>
-                    <TimelineConnector sx={{ bgcolor: 'blue.main' }} />
+                    <TimelineConnector sx={{ bgcolor: dataSikoja[0].status_id === 4 ? 'blue.main' : 'grey' }} />
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: '12px', px: 2 }}>
-                    <Typography component="span" color='primary' fontWeight='bold'>
+                    <Typography component="span" color={dataDisp[0] ? (dataDisp[0].description ? 'primary' : 'text.secondary') : 'text.secondary'} fontWeight='bold'>
                         Laporan DItindaklanjuti
                     </Typography>
-                    <Typography variant='subtitile1' paragraph align='left'>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, at neque, cumque amet tenetur.
+                    <Typography variant='subtitile1' paragraph align='left' color={dataDisp[0] ? (dataDisp[0].description ? 'grey.dark' : 'text.secondary') : 'text.secondary'}>
+                        {dataDisp[0] ? (dataDisp[0].description ? dataDisp[0].description : 'pihak berwenang belum ada tindakan lanjut') : 'laporan belum didisposisikan'}
                     </Typography>
                 </TimelineContent>
             </TimelineItem>
@@ -103,15 +102,15 @@ const TimeLine = (props) => {
                     variant="body2"
                     color="text.secondary"
                 >
-                    1 hari lalu
+                    {dataSikoja[0].status_id === 4 ? Moment(dataSikoja[0].updated_at) : ''}
                 </TimelineOppositeContent>
                 <TimelineSeparator>
-                    <TimelineDot color='blue'>
+                    <TimelineDot color={dataSikoja[0].status_id === 4 ? 'blue' : 'grey'}>
                         <CheckCircleOutlineIcon />
                     </TimelineDot>
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: '12px', px: 2, pt: 2 }}>
-                    <Typography component="span" color='primary' fontWeight='bold'>
+                    <Typography component="span" color={dataSikoja[0].status_id === 4 ? 'primary' : 'text.secondary'} fontWeight='bold'>
                         Selesai
                     </Typography>
                 </TimelineContent>

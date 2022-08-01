@@ -6,6 +6,7 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Moment from '../../components/Moment';
 import ReactPlayer from 'react-player';
+import { URLROOT } from '../../services';
 
 const Carousel = (props) => {
   const { lastUpdate } = props;
@@ -20,7 +21,7 @@ const Carousel = (props) => {
               {
                 extension[1] === 'mp4' ? (
                   <Box>
-                    <ReactPlayer height='auto' width='100%' controls url={'http://localhost:8000/' + post.galery[0].path} playing={true} />
+                    <ReactPlayer height='auto' width='100%' controls url={URLROOT + post.galery[0].path} playing={true} />
                   </Box>
                 ) : (
                   <Paper
@@ -32,7 +33,7 @@ const Carousel = (props) => {
                       backgroundSize: 'cover',
                       backgroundRepeat: 'no-repeat',
                       backgroundPosition: 'center',
-                      backgroundImage: `url(http://localhost:8000/${post.galery[0].path})`,
+                      backgroundImage: `url(${URLROOT}${post.galery[0].path})`,
                     }}
                   />
                 )

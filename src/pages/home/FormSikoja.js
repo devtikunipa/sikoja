@@ -98,31 +98,32 @@ const FormSikoja = () => {
 
     const handleOnSubmit = (event) => {
         event.preventDefault();
-        APISTORE.StoreSikoja(data).then(result => {
-            // console.log(result.data);
-            setMessage({ code: 201, msg: "Laporan telah disampaikan", status: true });
-            for (let file of files) {
-                const data2 = new FormData();
-                data2.append('galery', file)
-                data2.append('sikoja_id', result.data.id)
-                APIUPLOAD.UploadGalery(data2).then(result => {
-                    setData({
-                        title: '',
-                        description: '',
-                        village_id: null,
-                        street_id: null,
-                        name: '',
-                        hp: null,
-                    });
-                    setFiles([]);
-                }).catch(error => {
-                    console.log(`error ${error}`)
-                })
-            }
-        }).catch(error => {
-            setMessage({ code: 400, msg: error.message, status: true })
-            console.log(`error: ${error.message}`);
-        });
+        files.length === 0 ? setMessage({ code: 400, msg: 'Upload gambar/video sebagai bukti pengaduan', status: true }) :
+            APISTORE.StoreSikoja(data).then(result => {
+                // console.log(result.data);
+                setMessage({ code: 201, msg: "Laporan telah disampaikan", status: true });
+                for (let file of files) {
+                    const data2 = new FormData();
+                    data2.append('galery', file)
+                    data2.append('sikoja_id', result.data.id)
+                    APIUPLOAD.UploadGalery(data2).then(result => {
+                        setData({
+                            title: '',
+                            description: '',
+                            village_id: null,
+                            street_id: null,
+                            name: '',
+                            hp: null,
+                        });
+                        setFiles([]);
+                    }).catch(error => {
+                        console.log(`error ${error}`)
+                    })
+                }
+            }).catch(error => {
+                setMessage({ code: 400, msg: error.message, status: true })
+                console.log(`error: ${error.message}`);
+            });
     }
 
     return (

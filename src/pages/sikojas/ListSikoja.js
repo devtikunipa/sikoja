@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import CardActions from '@mui/material/CardActions';
 import Moment from '../../components/Moment';
 import ReactPlayer from 'react-player';
+import { URLROOT } from '../../services';
 
 const ListSikoja = (props) => {
     const { data } = props;
@@ -26,14 +27,14 @@ const ListSikoja = (props) => {
                                         const name = paths.filename.split(".");
                                         if (name[1] == 'mp4') {
                                             return (
-                                                <ReactPlayer key={index} height='100%' width='100%' controls url={'http://localhost:8000/' + paths.path} playing={true} />
+                                                <ReactPlayer key={index} height='100%' width='100%' controls url={URLROOT + paths.path} playing={true} />
                                             )
                                         } else {
                                             return (
                                                 <CardMedia key={index}
                                                     component="img"
                                                     sx={{ height: '250px' }}
-                                                    image={'http://localhost:8000/' + paths.path}
+                                                    image={URLROOT + paths.path}
                                                     alt="random"
                                                 />
                                             )

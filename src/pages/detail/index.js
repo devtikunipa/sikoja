@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import Typograph from '../../components/Typograph';
 import NavBar from '../guestLayouts/Navbar';
 import Container from '@mui/system/Container';
 import DescDisp from './DescDisp';
@@ -58,15 +57,15 @@ const Detail = () => {
                         </Grid>
                     </Container>
                 ) : (
-                    <Container key={1} maxWidth='lg' spacing={1}>
-                        <Grid container>
+                    <Container maxWidth='lg' sx={{ pt: 3 }}>
+                        <Grid container spacing={1}>
                             <Grid item lg={5} md={5} sm={12}>
                                 <TimeLine dataSikoja={sikoja} dataDisp={disposisi} />
                             </Grid>
                             <Grid item lg={7} md={6} sm={12}>
                                 <Container sx={{ p: 1, mb: 4, mt: 2 }}>
-                                    <DescSikoja />
-                                    <DescDisp />
+                                    <DescSikoja dataSikoja={sikoja} />
+                                    <DescDisp dataDisp={disposisi} />
                                 </Container>
                             </Grid>
                         </Grid>

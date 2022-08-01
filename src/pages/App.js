@@ -11,6 +11,11 @@ const theme = createTheme({
     blue: {
       main: '#2196f3',
       contrastText: 'white'
+    },
+    grey: {
+      main: '#9e9e9e',
+      dark: '#212121',
+      contrastText: '#fafafa',
     }
   },
 });
