@@ -6,7 +6,7 @@ const Store = (path, data) => {
             then(result => {
                 resolve(result.data);
             }).catch(error => {
-                reject(error);
+                reject(error.response.data);
             })
     })
 }

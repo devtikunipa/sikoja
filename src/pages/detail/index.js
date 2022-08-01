@@ -3,20 +3,32 @@ import { useParams } from 'react-router-dom';
 import Typograph from '../../components/Typograph';
 import NavBar from '../guestLayouts/Navbar';
 import Container from '@mui/system/Container';
-import MainMedia from './MainMedia';
+import DescDisp from './DescDisp';
 import Footer from '../guestLayouts/Footer';
 import APIGETONE from '../../services/axios/GetOne';
 import { Grid, Skeleton } from '@mui/material';
+import TimeLine from './TimeLine';
+import DescSikoja from './DescSikoja';
 
 const Detail = () => {
     const params = useParams();
-    const [data, setData] = useState([]);
+    const [sikoja, setSikoja] = useState([]);
+    const [disposisi, setDisposisi] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         APIGETONE.SikojaOne(params.id).then(result => {
-            setData(result.data);
-            console.log(result.data);
+            setSikoja(result.data);
+            setIsLoading(false);
+        }).catch(error => {
+            console.log(error);
+            setIsLoading(true);
+        });
+    }, []);
+
+    useEffect(() => {
+        APIGETONE.DispOne(params.id).then(result => {
+            setDisposisi(result.data);
             setIsLoading(false);
         }).catch(error => {
             console.log(error);
@@ -46,7 +58,19 @@ const Detail = () => {
                         </Grid>
                     </Container>
                 ) : (
-                    <MainMedia sikoja={data} />
+                    <Container key={1} maxWidth='lg' spacing={1}>
+                        <Grid container>
+                            <Grid item lg={5} md={5} sm={12}>
+                                <TimeLine dataSikoja={sikoja} dataDisp={disposisi} />
+                            </Grid>
+                            <Grid item lg={7} md={6} sm={12}>
+                                <Container sx={{ p: 1, mb: 4, mt: 2 }}>
+                                    <DescSikoja />
+                                    <DescDisp />
+                                </Container>
+                            </Grid>
+                        </Grid>
+                    </Container>
                 )
                 }
                 <Container maxWidth='xl' sx={{ mt: 4, pt: 4, pb: 2, backgroundColor: 'primary.light' }}>

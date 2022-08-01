@@ -19,7 +19,7 @@ const Sikojas = () => {
         APIGETALL.Sikojas().then(result => {
             setData(result.data);
             setIsLoading(false);
-            console.log(result.data);
+            // console.log(result.data);
         }).catch(error => {
             console.log(error);
         });

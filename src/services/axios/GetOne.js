@@ -6,15 +6,17 @@ const GetOne = (path) => {
             then(result => {
                 resolve(result.data);
             }).catch(error => {
-                reject(error.message);
+                reject(error.response.data);
             })
     })
 }
 
 const SikojaOne = (id) => GetOne('sikoja/' + id);
+const DispOne = (id) => GetOne('sikojadisp/' + id);
 
 const APIGETONE = {
     SikojaOne,
+    DispOne,
 }
 
 
