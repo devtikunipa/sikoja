@@ -7,9 +7,9 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import CardActions from '@mui/material/CardActions';
-import Moment from '../../components/Moment';
+import Moment from '../../../components/Moment';
 import ReactPlayer from 'react-player';
-import { URLROOT } from '../../services';
+import { URLROOT } from '../../../services';
 
 const ListSikoja = (props) => {
     const { data } = props;
@@ -17,7 +17,7 @@ const ListSikoja = (props) => {
         <Grid container spacing={3} sx={{ mt: { xs: 1 } }} >
             {data.map((dt) => (
                 <Grid item key={dt.id} xs={12} sm={6} md={4}>
-                    <CardActionArea component="a" href={'/detail/' + dt.id} >
+                    <CardActionArea component="a" href={'detail/' + dt.id} >
                         <Card
                             sx={{ display: 'flex', flexDirection: 'column', borderRadius: 1.5 }}
                         >
@@ -25,7 +25,7 @@ const ListSikoja = (props) => {
                                 dt.galery.map((paths, index) => {
                                     if (index === 0) {
                                         const name = paths.filename.split(".");
-                                        if (name[1] == 'mp4') {
+                                        if (name[1] === 'mp4') {
                                             return (
                                                 <ReactPlayer key={index} height='100%' width='100%' controls url={URLROOT + paths.path} playing={true} />
                                             )

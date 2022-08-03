@@ -9,17 +9,17 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Typograph from '../../components/Typograph';
-import APIGETALL from '../../services/axios/GetAll';
+import Typograph from '../../../components/Typograph';
+import APIGETALL from '../../../services/axios/GetAll';
 import Alert from '@mui/material/Alert';
-import APISTORE from '../../services/axios/Store';
+import APISTORE from '../../../services/axios/Store';
 import Paper from '@mui/material/Paper';
 import Input from '@mui/material/Input';
 import { useDropzone } from 'react-dropzone';
 import ReactPlayer from 'react-player';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import APIUPLOAD from '../../services/axios/Upload';
+import APIUPLOAD from '../../../services/axios/Upload';
 
 
 const FormSikoja = () => {

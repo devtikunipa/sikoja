@@ -10,7 +10,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import ReplyIcon from '@mui/icons-material/Reply';
 import SendAndArchiveIcon from '@mui/icons-material/SendAndArchive';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
-import Typograph from '../../components/Typograph';
+import Typograph from '../../../components/Typograph';
 
 const FlowReport = () => {
     return (
@@ -46,7 +46,7 @@ const FlowReport = () => {
                         />
                         <CardContent sx={{ mt: 5 }}>
                             <Typograph text='Disposisi Laporan' variant='h6' fontWeight={600} />
-                            <Typograph text='Laporan anda akan didisposisikan oleh admin kepada instansi yang berwenang' variant='subtitle1'/>
+                            <Typograph text='Laporan anda akan didisposisikan oleh admin kepada instansi yang berwenang' variant='subtitle1' />
                         </CardContent>
                     </Card>
                 </Grid>

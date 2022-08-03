@@ -2,12 +2,12 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import CountUp from 'react-countup';
-import BgHome from '../../assets/images/bg-home.jpg';
-import Typograph from '../../components/Typograph';
+import BgHome from '../../../assets/images/bg-home.jpg';
+import Typograph from '../../../components/Typograph';
 import FormSikoja from './FormSikoja';
-import NavBar from '../guestLayouts/Navbar';
+import NavBar from '../Navbar';
 import FlowReport from './FlowReport';
-import Footer from '../guestLayouts/Footer';
+import Footer from '../Footer';
 
 const Home = () => {
 

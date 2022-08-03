@@ -12,7 +12,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import DriveFileMove from '@mui/icons-material/DriveFileMove';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import Moment from '../../components/Moment';
+import Moment from '../../../components/Moment';
 
 const TimeLine = (props) => {
     const { dataSikoja, dataDisp } = props;

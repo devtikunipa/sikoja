@@ -60,11 +60,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const pages = [
     {
-        path: '/about',
+        path: 'about',
         name: 'Tentang Sikoja',
     },
     {
-        path: '/data',
+        path: 'sikojas',
         name: 'Data Pengaduan',
     },
 
@@ -161,7 +161,7 @@ const NavBar = () => {
                         </Search>
                     </Box>
                     <Box>
-                        <Button onClick={() => { }} variant="contained" sx={{ backgroundColor: '#ffffff', color: "#607d8b" }}>LOGIN</Button>
+                        <Button href='login' variant="contained" sx={{ backgroundColor: '#ffffff', color: "#607d8b" }}>LOGIN</Button>
                     </Box>
                 </Toolbar>
             </Container>

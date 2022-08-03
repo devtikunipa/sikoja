@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
-import Moment from '../../components/Moment';
+import Moment from '../../../components/Moment';
 import ReactPlayer from 'react-player';
-import { URLROOT } from '../../services';
+import { URLROOT } from '../../../services';
 
 const Carousel = (props) => {
   const { lastUpdate } = props;

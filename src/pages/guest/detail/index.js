@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import NavBar from '../guestLayouts/Navbar';
+import NavBar from '../Navbar';
 import Container from '@mui/system/Container';
 import DescDisp from './DescDisp';
-import Footer from '../guestLayouts/Footer';
-import APIGETONE from '../../services/axios/GetOne';
+import Footer from '../Footer';
+import APIGETONE from '../../../services/axios/GetOne';
 import { Grid, Skeleton } from '@mui/material';
 import TimeLine from './TimeLine';
 import DescSikoja from './DescSikoja';
@@ -72,7 +72,7 @@ const Detail = () => {
                     </Container>
                 )
                 }
-                <Container maxWidth='xl' sx={{ mt: 4, pt: 4, pb: 2, backgroundColor: 'primary.light' }}>
+                <Container maxWidth='100' sx={{ mt: 4, pt: 4, pb: 2, backgroundColor: 'primary.light' }}>
                     <Footer />
                 </Container>
             </main>

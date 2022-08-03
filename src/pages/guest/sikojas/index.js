@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from '../guestLayouts/Navbar'
+import NavBar from '../Navbar'
 import Container from '@mui/material/Container';
 import Carousel from './Carousel';
 import ListSikoja from './ListSikoja';
-import Footer from '../guestLayouts/Footer';
+import Footer from '../Footer';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import APIGETALL from '../../services/axios/GetAll';
+import APIGETALL from '../../../services/axios/GetAll';
 import LoadingSkeleton from './LoadingSkeleton';
 
 
@@ -41,7 +41,7 @@ const Sikojas = () => {
                                 <Button variant='outlined'>Load more...</Button>
                             </Box>
                         </Container>
-                        <Container maxWidth='xl' sx={{ mt: 4, pt: 4, pb: 2, backgroundColor: 'primary.light' }}>
+                        <Container maxWidth='100' sx={{ mt: 4, pt: 4, pb: 2, backgroundColor: 'primary.light' }}>
                             <Footer />
                         </Container>
                     </>

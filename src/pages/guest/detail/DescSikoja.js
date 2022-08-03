@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import Moment from '../../components/Moment';
+import Moment from '../../../components/Moment';
 import ReactPlayer from 'react-player';
-import { URLROOT } from '../../services';
+import { URLROOT } from '../../../services';
 
 const DescSikoja = (props) => {
     const { dataSikoja } = props;
