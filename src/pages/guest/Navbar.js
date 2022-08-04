@@ -60,11 +60,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const pages = [
     {
-        path: 'about',
+        path: '/',
+        name: 'Home',
+    },
+    {
+        path: '/about',
         name: 'Tentang Sikoja',
     },
     {
-        path: 'sikojas',
+        path: '/sikojas',
         name: 'Data Pengaduan',
     },
 
@@ -132,7 +136,7 @@ const NavBar = () => {
                         >
                             {pages.map((page, index) => (
                                 <MenuItem key={index}>
-                                    <Link maxWidth='xs' href={page.path}>{page.name}</Link>
+                                    <Link maxWidth='xs' href={page.path} underline='none'>{page.name}</Link>
                                 </MenuItem>
                             ))}
                         </Menu>

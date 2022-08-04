@@ -27,7 +27,12 @@ const GuestRoutes = {
         },
         {
             path: 'detail',
-            element: <Detail />
+            children: [
+                {
+                    path: ':id',
+                    element: <Detail />
+                }
+            ]
         },
     ]
 }

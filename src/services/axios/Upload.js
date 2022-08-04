@@ -1,13 +1,16 @@
 import HttpUpload from "./httpUpload";
+import { URLROOT } from "..";
 
 const Galery = (path, data) => {
     return new Promise((resolve, reject) => {
-        HttpUpload.post(path, data,).
-            then(result => {
-                resolve(result.data);
-            }).catch(error => {
-                reject(error.response.data);
-            })
+        HttpUpload.get(`${URLROOT}sanctum/csrf-cookie`).then(() => {
+            HttpUpload.post(path, data).
+                then(result => {
+                    resolve(result.data);
+                }).catch(error => {
+                    reject(error.response.data);
+                })
+        })
     })
 }
 

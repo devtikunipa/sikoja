@@ -19,11 +19,9 @@
 // export default Rutes
 
 import { useRoutes } from "react-router-dom";
-import AdminRoutes from "./AdminRoutes";
-import AuthRoutes from "./AuthRoutes";
 import GuestRoutes from "./GuestRoutes";
 
 
 export default function ThemeRoutes() {
-  return useRoutes([GuestRoutes, AuthRoutes, AdminRoutes])
+  return useRoutes([GuestRoutes])
 }
