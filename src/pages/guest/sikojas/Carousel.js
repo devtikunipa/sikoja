@@ -4,9 +4,22 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
 import Moment from '../../../components/Moment';
 import ReactPlayer from 'react-player';
 import { URLROOT } from '../../../services';
+
+function colorChip(id) {
+  if (id === 1) {
+    return 'error'
+  } else if (id === 2) {
+    return 'warning'
+  } else if (id === 3) {
+    return 'success'
+  } else {
+    return 'info'
+  }
+}
 
 const Carousel = (props) => {
   const { lastUpdate } = props;
@@ -53,6 +66,7 @@ const Carousel = (props) => {
                 <Typography variant="h6" color="inherit" paragraph>
                   {post.description}
                 </Typography>
+                <Chip label={post.status.statuse} color={colorChip(post.status_id)} size="small" />
                 <Typography variant="subtitel1" color="inherit" paragraph>
                   {Moment(post.created_at)}
                 </Typography>

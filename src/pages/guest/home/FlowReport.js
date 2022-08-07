@@ -1,74 +1,82 @@
 import React from 'react';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Avatar from '@mui/material/Avatar';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
-import Divider from '@mui/material/Divider';
+import DriveFileMove from '@mui/icons-material/DriveFileMove';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import ReplyIcon from '@mui/icons-material/Reply';
-import SendAndArchiveIcon from '@mui/icons-material/SendAndArchive';
-import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
-import Typograph from '../../../components/Typograph';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
 
 const FlowReport = () => {
     return (
         <Container maxWidth="lg">
-            <Typograph text='Bagaimana Laporan Saya Diproses?' variant="h4" align='center' textTransform='capitalize' fontWeight='bold' sx={{ pb: 5 }} />
-            <Grid container rowGap={5} alignContent='center' justifyContent="center" sx={{ mt: 4 }} >
-                <Grid item lg={3} md={8} xs={12}>
-                    <Card elevation={3} sx={{ height: '100%', display: 'flex', flexDirection: 'column', textAlign: 'center', alignItems: 'center' }}>
-                        <CardHeader
-                            align='center'
-                            title={<Avatar sx={{ bgcolor: 'primary.dark', width: 56, height: 56 }}>
+            <Typography variant="h4" align='center' textTransform='capitalize' fontWeight='bold' sx={{ pb: 7 }}>
+                Bagaimana Laporan Saya Diproses?
+            </Typography>
+            <Box sx={{ width: '100%', py: 5, overflow: 'scroll' }}>
+                <Stepper activeStep={4} alternativeLabel>
+                    <Step>
+                        <StepLabel icon={
+                            <Avatar sx={{ bgcolor: 'error.main' }}>
                                 <AssignmentIcon />
-                            </Avatar>}
-                            sx={{ mt: -4, position: 'absolute' }}
-                        />
-                        <CardContent sx={{ mt: 5 }}>
-                            <Typograph text='Ajukan Laporan' variant='h6' fontWeight={600} />
-                            <Typograph text='Anda dapat melaporan kerusakan jalan melalui form diatas' variant='subtitle1' />
-                        </CardContent>
-                    </Card>
-                </Grid>
-                <Divider orientation="vertical" flexItem sx={{ rotate: 90, display: { lg: 'flex', md: 'none', xs: 'none' } }}>
-                    <ReplyIcon sx={{ transform: 'scale(-1, 1)', }} />
-                </Divider>
-                <Grid item lg={5} md={6} xs={12}>
-                    <Card elevation={3} sx={{ height: '100%', display: 'flex', flexDirection: 'column', textAlign: 'center', alignItems: 'center' }}>
-                        <CardHeader
-                            align='center'
-                            title={<Avatar sx={{ bgcolor: 'warning.main', width: 56, height: 56 }}>
-                                <SendAndArchiveIcon />
-                            </Avatar>}
-                            sx={{ mt: -4, position: 'absolute' }}
-                        />
-                        <CardContent sx={{ mt: 5 }}>
-                            <Typograph text='Disposisi Laporan' variant='h6' fontWeight={600} />
-                            <Typograph text='Laporan anda akan didisposisikan oleh admin kepada instansi yang berwenang' variant='subtitle1' />
-                        </CardContent>
-                    </Card>
-                </Grid>
-                <Divider orientation="vertical" flexItem sx={{ rotate: 90, display: { lg: 'flex', md: 'flex', xs: 'none' } }}>
-                    <ReplyIcon sx={{ transform: 'scale(-1, 1)', }} />
-                </Divider>
-                <Grid item lg={3} md={5} xs={12}>
-                    <Card elevation={3} sx={{ height: '100%', display: 'flex', flexDirection: 'column', textAlign: 'center', alignItems: 'center' }}>
-                        <CardHeader
-                            align='center'
-                            title={<Avatar sx={{ bgcolor: 'success.main', width: 56, height: 56 }}>
-                                <PublishedWithChangesIcon />
-                            </Avatar>}
-                            sx={{ mt: -4, position: 'absolute' }}
-                        />
-                        <CardContent sx={{ mt: 5 }}>
-                            <Typograph text='Laporan Direspon' variant='h6' fontWeight={600} />
-                            <Typograph text='Instansi yang berwenang akan merespon laporan anda' variant='subtitle1' />
-                        </CardContent>
-                    </Card>
-                </Grid>
-            </Grid>
+                            </Avatar>
+                        }>
+                            <Typography variant='h6' fontWeight='bold'>
+                                Laporan Diterima
+                            </Typography>
+                            <Typography variant='subtitle2' color='text.secondary'>
+                                Anda dapat melaporan kerusakan jalan melalui form diatas
+                            </Typography>
+                        </StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel icon={
+                            <Avatar sx={{ bgcolor: 'warning.main' }}>
+                                <DriveFileMove />
+                            </Avatar>
+                        }>
+                            <Typography variant='h6' fontWeight='bold'>
+                                Didisposisikan
+                            </Typography>
+                            <Typography variant='subtitle2' color='text.secondary'>
+                                Laporan anda akan didisposisikan oleh admin kepada instansi yang berwenang
+                            </Typography>
+                        </StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel icon={
+                            <Avatar sx={{ bgcolor: 'success.main' }}>
+                                <PendingActionsIcon />
+                            </Avatar>
+                        }>
+                            <Typography variant='h6' fontWeight='bold'>
+                                DItindaklanjuti
+                            </Typography>
+                            <Typography variant='subtitle2' color='text.secondary'>
+                                Instansi yang berwenang akan merespon laporan anda
+                            </Typography>
+                        </StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel icon={
+                            <Avatar sx={{ bgcolor: 'info.main' }}>
+                                <CheckCircleOutlineIcon />
+                            </Avatar>
+                        }>
+                            <Typography variant='h6' fontWeight='bold'>
+                                Selesai
+                            </Typography>
+                            <Typography variant='subtitle2' color='text.secondary'>
+                                Laporan pengaduan anda telah diselesaikan.
+                            </Typography>
+                        </StepLabel>
+                    </Step>
+                </Stepper>
+            </Box>
         </Container>
     )
 }

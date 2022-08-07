@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import CountUp from 'react-countup';
@@ -8,9 +8,17 @@ import FormSikoja from './FormSikoja';
 import NavBar from '../Navbar';
 import FlowReport from './FlowReport';
 import Footer from '../Footer';
+import APIGETALL from '../../../services/axios/GetAll';
 
 const Home = () => {
-
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        APIGETALL.Sikojas().then(result => {
+            setData(result.data);
+        }).catch(error => {
+            console.log(error);
+        });
+    }, [])
     return (
         <>
             <NavBar />
@@ -41,7 +49,7 @@ const Home = () => {
                     }}>
                         <Container sx={{ mx: 'auto', pt: 4, pb: 2 }}>
                             <Typograph text='Jumlah Laporan Sekarang' variant="h4" align='center' textTransform='capitalize' fontWeight='bold' sx={{ pb: 3 }} />
-                            <Typograph text={<CountUp end={5000} />} variant="h2" align='center' textTransform='capitalize' fontWeight='bold' sx={{ pb: 7 }} />
+                            <Typograph text={<CountUp end={data.length} duration={1} delay={0} redraw />} variant="h2" align='center' textTransform='capitalize' fontWeight='bold' sx={{ pb: 7 }} />
                             <Footer />
                         </Container>
                     </Box>

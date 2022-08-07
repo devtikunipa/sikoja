@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -13,13 +11,20 @@ import Typograph from '../../../components/Typograph';
 import APIGETALL from '../../../services/axios/GetAll';
 import Alert from '@mui/material/Alert';
 import APISTORE from '../../../services/axios/Store';
-import Paper from '@mui/material/Paper';
 import Input from '@mui/material/Input';
 import { useDropzone } from 'react-dropzone';
 import ReactPlayer from 'react-player';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import APIUPLOAD from '../../../services/axios/Upload';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 
 const FormSikoja = () => {
@@ -37,6 +42,8 @@ const FormSikoja = () => {
     const [streets, setStreets] = useState([]);
     const [villages, setVillages] = useState([]);
     const [message, setMessage] = useState({ msg: 'Belum ada aktivitas', status: false, code: 201 });
+    const [open, setOpen] = useState(false);
+    const [checked, setChecked] = useState(false);
     const [files, setFiles] = useState([]);
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop: acceptedFiles => {
@@ -95,39 +102,51 @@ const FormSikoja = () => {
         const id = newValue.id;
         setData({ ...data, street_id: id })
     }
+    const handleChecked = (event) => {
+        setChecked(event.target.checked);
+    };
 
     const handleOnSubmit = (event) => {
         event.preventDefault();
         files.length === 0 ? setMessage({ code: 400, msg: 'Upload gambar/video sebagai bukti pengaduan', status: true }) :
-            APISTORE.StoreSikoja(data).then(result => {
-                // console.log(result.data);
-                setMessage({ code: 201, msg: "Laporan telah disampaikan", status: true });
-                for (let file of files) {
-                    const data2 = new FormData();
-                    data2.append('galery', file)
-                    data2.append('sikoja_id', result.data.id)
-                    APIUPLOAD.UploadGalery(data2).then(result => {
-                        setData({
-                            title: '',
-                            description: '',
-                            village_id: null,
-                            street_id: null,
-                            name: '',
-                            hp: null,
-                        });
-                        setFiles([]);
-                    }).catch(error => {
-                        console.log(`error ${error}`)
-                    })
-                }
-            }).catch(error => {
-                setMessage({ code: 400, msg: error.message, status: true })
-                console.log(`error: ${error.message}`);
-            });
+            setOpen(true)
+        APISTORE.StoreSikoja(data).then(result => {
+            // console.log(result.data);
+            setMessage({ code: 201, msg: "Laporan telah disampaikan", status: true });
+            for (let file of files) {
+                const data2 = new FormData();
+                data2.append('galery', file)
+                data2.append('sikoja_id', result.data.id)
+                APIUPLOAD.UploadGalery(data2).then(result => {
+                    setData({
+                        title: '',
+                        description: '',
+                        village_id: null,
+                        street_id: null,
+                        name: '',
+                        hp: null,
+                    });
+                    setFiles([]);
+                }).catch(error => {
+                    setOpen(false)
+                    setMessage({ code: 400, msg: 'Gagal mengupload, coba lagi!', status: true })
+                })
+            }
+            setOpen(false)
+        }).catch(error => {
+            setMessage({ code: 400, msg: 'Gagal mengupload, coba lagi!', status: true })
+            setOpen(false)
+        });
     }
 
     return (
         <Container maxWidth="lg" sx={{ mx: "auto", mt: 6 }}>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={open}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <Grid container>
                 <Grid item align='center' lg={8} xs={12} sm={12} md={10} sx={{ mx: 'auto' }}>
                     <Card
@@ -150,7 +169,8 @@ const FormSikoja = () => {
                                         renderInput={(params) => <TextField {...params} required label="Nama Kampung" />}
                                         onChange={handleOnSelectedVillage}
                                     />
-                                    <Autocomplete disablePortal
+                                    <Autocomplete
+                                        disabled={checked}
                                         id="street_id"
                                         name='street_id'
                                         options={streets}
@@ -160,6 +180,8 @@ const FormSikoja = () => {
                                         renderInput={(params) => <TextField {...params} required label="Nama Jalan" />}
                                         onChange={handleOnSelectedStreet}
                                     />
+                                    <FormControlLabel control={<Checkbox checked={checked}
+                                        onChange={handleChecked} />} label="Belum ada nama jalan" />
                                     <Grid container sx={{ mt: 1 }} spacing={2}>
                                         <Grid item lg={7} md={12} xs={12}>
                                             <TextField fullWidth required id="name" name='name' label="Nama Anda" value={data.name} variant="outlined" onChange={handleOnChange} />

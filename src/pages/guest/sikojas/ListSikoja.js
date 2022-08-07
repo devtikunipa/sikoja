@@ -6,10 +6,23 @@ import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
 import CardActions from '@mui/material/CardActions';
 import Moment from '../../../components/Moment';
 import ReactPlayer from 'react-player';
 import { URLROOT } from '../../../services';
+
+function colorChip(id) {
+    if (id === 1) {
+        return 'error'
+    } else if (id === 2) {
+        return 'warning'
+    } else if (id === 3) {
+        return 'success'
+    } else {
+        return 'info'
+    }
+}
 
 const ListSikoja = (props) => {
     const { data } = props;
@@ -53,8 +66,9 @@ const ListSikoja = (props) => {
                                     {Moment(dt.created_at)}
                                 </Typography>
                             </CardContent>
-                            <CardActions>
+                            <CardActions sx={{ display: 'flex', justifyContent: 'space-between', pr: 2, pb: 2 }}>
                                 <Button size="normal" sx={{ textTransform: 'capitalize' }}>Selengkapnya...</Button>
+                                <Chip label={dt.status.statuse} color={colorChip(dt.status_id)} size="small" sx={{ py: '12px' }} />
                             </CardActions>
                         </Card>
                     </CardActionArea>
