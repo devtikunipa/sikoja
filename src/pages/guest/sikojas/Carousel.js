@@ -8,6 +8,7 @@ import Chip from '@mui/material/Chip';
 import Moment from '../../../components/Moment';
 import ReactPlayer from 'react-player';
 import { URLROOT } from '../../../services';
+import { Divider } from '@mui/material';
 
 function colorChip(id) {
   if (id === 1) {
@@ -23,7 +24,6 @@ function colorChip(id) {
 
 const Carousel = (props) => {
   const { lastUpdate } = props;
-  // const post = mainFeaturedPost
   return (
     lastUpdate.map((post, index) => {
       if (index === 0 && post.galery[0]) {
@@ -39,7 +39,7 @@ const Carousel = (props) => {
                 ) : (
                   <Paper
                     sx={{
-                      height: '350px',
+                      height: '360px',
                       widht: '100%',
                       backgroundColor: 'grey.300',
                       color: '#fff',
@@ -56,21 +56,24 @@ const Carousel = (props) => {
               <Box
                 sx={{
                   p: { xs: 3, md: 6 },
-                  pr: { md: 0 },
+                  pr: 0,
                   backgroundColor: 'primary.light',
                 }}
               >
-                <Typography component="h2" variant="h5" color="inherit" textTransform='capitalize' fontWeight={600} gutterBottom>
-                  {post.title}
+                <Typography component="h2" variant="h5" color="inherit" textTransform='capitalize' fontWeight={600}>
+                  {post.title.slice(0, 65) + (post.title.length > 65 ? '...' : '')}
                 </Typography>
-                <Typography variant="h6" color="inherit" paragraph>
-                  {post.description}
-                </Typography>
-                <Chip label={post.status.statuse} color={colorChip(post.status_id)} size="small" />
-                <Typography variant="subtitel1" color="inherit" paragraph>
+                <Typography variant="subtitel1" color="text.secondary" gutterBottom>
                   {Moment(post.created_at)}
                 </Typography>
-                <Link variant="subtitle1" href={'/detail/' + post.id} color='primary.main'>
+                <Divider sx={{ my: 1 }} />
+                <Typography variant="h6" color="inherit" paragraph>
+                  {post.description.slice(0, 100) + (post.description.length > 100 ? '...' : '')}
+                </Typography>
+                <Box sx={{ mb: 1 }}>
+                  <Chip label={post.status.statuse} color={colorChip(post.status_id)} size="medium" />
+                </Box>
+                <Link variant="subtitle1" href={'/detail/' + post.id} color='primary.main' sx={{ pl: 1 }}>
                   Selengkapnya...
                 </Link>
               </Box>

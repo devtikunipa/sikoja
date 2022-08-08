@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import NavBar from '../Navbar';
 import Container from '@mui/system/Container';
 import DescDisp from './DescDisp';
 import Footer from '../Footer';
@@ -36,46 +35,43 @@ const Detail = () => {
 
     return (
         <>
-            <NavBar />
-            <main>
-                {isLoading ? (
-                    <Container maxWidth='lg' sx={{ mt: 2, p: 0, }}>
-                        <Skeleton variant='reagtangle' width='100' height='350px' />
-                        <Grid container sx={{ mt: 1 }} spacing={2}>
-                            <Grid item lg={6} sm={12}>
-                                <Skeleton variant='reagtangle' width='100' height='200px' />
-                                <Skeleton />
-                                <Skeleton width='80%' />
-                                <Skeleton width='60%' />
-                            </Grid>
-                            <Grid item lg={6} sm={12}>
-                                <Skeleton variant='reagtangle' width='100' height='200px' />
-                                <Skeleton />
-                                <Skeleton width='80%' />
-                                <Skeleton width='60%' />
-                            </Grid>
+            {isLoading ? (
+                <Container maxWidth='lg' sx={{ mt: 2, p: 0, }}>
+                    <Skeleton variant='reagtangle' width='100' height='350px' />
+                    <Grid container sx={{ mt: 1 }} spacing={2}>
+                        <Grid item lg={6} sm={12}>
+                            <Skeleton variant='reagtangle' width='100' height='200px' />
+                            <Skeleton />
+                            <Skeleton width='80%' />
+                            <Skeleton width='60%' />
                         </Grid>
-                    </Container>
-                ) : (
-                    <Container maxWidth='lg' sx={{ pt: 3 }}>
-                        <Grid container spacing={1}>
-                            <Grid item lg={5} md={5} sm={12}>
-                                <TimeLine dataSikoja={sikoja} dataDisp={disposisi} />
-                            </Grid>
-                            <Grid item lg={7} md={6} sm={12}>
-                                <Container sx={{ p: 1, mb: 4, mt: 2 }}>
-                                    <DescSikoja dataSikoja={sikoja} />
-                                    <DescDisp dataDisp={disposisi} />
-                                </Container>
-                            </Grid>
+                        <Grid item lg={6} sm={12}>
+                            <Skeleton variant='reagtangle' width='100' height='200px' />
+                            <Skeleton />
+                            <Skeleton width='80%' />
+                            <Skeleton width='60%' />
                         </Grid>
-                    </Container>
-                )
-                }
-                <Container maxWidth='100' sx={{ mt: 4, pt: 4, pb: 2, backgroundColor: 'primary.light' }}>
-                    <Footer />
+                    </Grid>
                 </Container>
-            </main>
+            ) : (
+                <Container maxWidth='lg' sx={{ pt: 3 }}>
+                    <Grid container spacing={1}>
+                        <Grid item lg={5} md={5} sm={12}>
+                            <TimeLine dataSikoja={sikoja} dataDisp={disposisi} />
+                        </Grid>
+                        <Grid item lg={7} md={6} sm={12}>
+                            <Container sx={{ p: 1, mb: 4, mt: 2 }}>
+                                <DescSikoja dataSikoja={sikoja} />
+                                <DescDisp dataDisp={disposisi} />
+                            </Container>
+                        </Grid>
+                    </Grid>
+                </Container>
+            )
+            }
+            <Container maxWidth='100' sx={{ mt: 4, pt: 4, pb: 2, backgroundColor: 'primary.light' }}>
+                <Footer />
+            </Container>
         </>
     )
 }

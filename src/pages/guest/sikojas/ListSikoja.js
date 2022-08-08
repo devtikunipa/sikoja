@@ -1,8 +1,9 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
@@ -24,57 +25,68 @@ function colorChip(id) {
     }
 }
 
-const ListSikoja = (props) => {
-    const { data } = props;
+const GridItem = ({ dt }) => {
     return (
-        <Grid container spacing={3} sx={{ mt: { xs: 1 } }} >
-            {data.map((dt) => (
-                <Grid item key={dt.id} xs={12} sm={6} md={4}>
-                    <CardActionArea component="a" href={'detail/' + dt.id} >
-                        <Card
-                            sx={{ display: 'flex', flexDirection: 'column', borderRadius: 1.5 }}
-                        >
-                            {
-                                dt.galery.map((paths, index) => {
-                                    if (index === 0) {
-                                        const name = paths.filename.split(".");
-                                        if (name[1] === 'mp4') {
-                                            return (
-                                                <ReactPlayer key={index} height='100%' width='100%' controls url={URLROOT + paths.path} playing={true} />
-                                            )
-                                        } else {
-                                            return (
-                                                <CardMedia key={index}
-                                                    component="img"
-                                                    sx={{ height: '250px' }}
-                                                    image={URLROOT + paths.path}
-                                                    alt="random"
-                                                />
-                                            )
-                                        }
-                                    }
-                                })
+        <Grid item xs={12} sm={6} md={4}>
+            <CardActionArea component="a" href={'detail/' + dt.id} >
+                <Card elevation={3}
+                    sx={{ display: 'flex', flexDirection: 'column', borderRadius: 1.5 }}
+                >
+                    <CardHeader
+                        title={<Typography variant="h6" fontWeight='bold' >
+                            {dt.title.slice(0, 60) + (dt.title.length > 60 ? '...' : '')}
+                        </Typography>}
+                        subheader={<Typography variant="caption" color="text.secondary">
+                            {Moment(dt.created_at)}
+                        </Typography>}
+                        sx={{ px: 2, py: 1 }}
+                    />
+                    {
+                        dt.galery.map((paths, index) => {
+                            if (index === 0) {
+                                const name = paths.filename.split(".");
+                                if (name[1] === 'mp4') {
+                                    return (
+                                        <ReactPlayer key={index} height='100%' width='100%' controls url={URLROOT + paths.path} playing={true} />
+                                    )
+                                } else {
+                                    return (
+                                        <CardMedia key={index}
+                                            component="img"
+                                            sx={{ height: '250px' }}
+                                            image={URLROOT + paths.path}
+                                            alt="random"
+                                        />
+                                    )
+                                }
                             }
-                            <CardContent sx={{ flexGrow: 1, pb: 0 }}>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                    {dt.title}
-                                </Typography>
-                                <Typography>
-                                    {dt.description.slice(0, 80) + (dt.description.length > 90 ? '...' : '')}
-                                </Typography>
-                                <Typography variant="caption" color="text.secondary">
-                                    {Moment(dt.created_at)}
-                                </Typography>
-                            </CardContent>
-                            <CardActions sx={{ display: 'flex', justifyContent: 'space-between', pr: 2, pb: 2 }}>
-                                <Button size="normal" sx={{ textTransform: 'capitalize' }}>Selengkapnya...</Button>
-                                <Chip label={dt.status.statuse} color={colorChip(dt.status_id)} size="small" sx={{ py: '12px' }} />
-                            </CardActions>
-                        </Card>
-                    </CardActionArea>
-                </Grid>
-            ))
-            }
+                        })
+                    }
+                    <CardContent sx={{ flexGrow: 1, pb: 0 }}>
+                        <Typography>
+                            {dt.description.slice(0, 80) + (dt.description.length > 90 ? '...' : '')}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary" textTransform='lowercase'>
+                            oleh: {dt.name}
+                        </Typography>
+                    </CardContent>
+                    <CardActions sx={{ display: 'flex', justifyContent: 'space-between', pr: 2, pb: 2 }}>
+                        <Button size="normal" sx={{ textTransform: 'capitalize' }}>Selengkapnya...</Button>
+                        <Chip label={dt.status.statuse} color={colorChip(dt.status_id)} size="small" sx={{ py: '14px' }} />
+                    </CardActions>
+                </Card>
+            </CardActionArea>
+        </Grid>
+    )
+}
+const ListSikoja = ({ data }) => {
+
+    const results = data.map(dt => <GridItem key={dt.id} dt={dt} />);
+
+    const content = results?.length ? results : <Typography align='center'>Belum ada laporan</Typography>
+    return (
+        <Grid container spacing={3} sx={{ mt: { xs: 1 } }} justifyContent='center'>
+            {content}
         </Grid >
     )
 }

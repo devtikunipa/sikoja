@@ -1,6 +1,7 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import NavBar from './Navbar';
 
 const theme = createTheme({
     palette: {
@@ -24,7 +25,10 @@ const theme = createTheme({
 const GuestLayout = () => {
     return (
         <ThemeProvider theme={theme}>
-            <Outlet />
+            <NavBar />
+            <main>
+                <Outlet />
+            </main>
         </ThemeProvider>
     )
 }

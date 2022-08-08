@@ -17,7 +17,7 @@ const FlowReport = () => {
             <Typography variant="h4" align='center' textTransform='capitalize' fontWeight='bold' sx={{ pb: 7 }}>
                 Bagaimana Laporan Saya Diproses?
             </Typography>
-            <Box sx={{ width: '100%', py: 5, overflow: 'scroll' }}>
+            <Box sx={{ width: '100%', py: 5, overflow: { xs: 'scroll', sm: 'visible', md: 'visible', lg: 'visible' } }}>
                 <Stepper activeStep={4} alternativeLabel>
                     <Step>
                         <StepLabel icon={
