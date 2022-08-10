@@ -1,4 +1,4 @@
-import HttpUpload from "./httpUpload";
+import HttpUpload from "./HttpUpload";
 import { URLROOT } from "..";
 
 const Galery = (path, data) => {
