@@ -62,7 +62,7 @@ const FormSikoja = () => {
     });
 
     const thumbs = files.map(file => {
-        if (file.type == 'video/mp4') {
+        if (file.type === 'video/mp4') {
             return (
                 <ReactPlayer key={file.name} height='100%' width='100%' controls url={file.preview} />
             )
@@ -108,35 +108,38 @@ const FormSikoja = () => {
 
     const handleOnSubmit = (event) => {
         event.preventDefault();
-        files.length === 0 ? setMessage({ code: 400, msg: 'Upload gambar/video sebagai bukti pengaduan', status: true }) :
+        if (files.length === 0) {
+            setMessage({ code: 400, msg: 'Upload gambar/video sebagai bukti pengaduan', status: true })
+        } else {
             setOpen(true)
-        APISTORE.StoreSikoja(data).then(result => {
-            // console.log(result.data);
-            setMessage({ code: 201, msg: "Laporan telah disampaikan", status: true });
-            for (let file of files) {
-                const data2 = new FormData();
-                data2.append('galery', file)
-                data2.append('sikoja_id', result.data.id)
-                APIUPLOAD.UploadGalery(data2).then(result => {
-                    setData({
-                        title: '',
-                        description: '',
-                        village_id: null,
-                        street_id: null,
-                        name: '',
-                        hp: null,
-                    });
-                    setFiles([]);
-                }).catch(error => {
-                    setOpen(false)
-                    setMessage({ code: 400, msg: 'Gagal mengupload, coba lagi!', status: true })
-                })
-            }
-            setOpen(false)
-        }).catch(error => {
-            setMessage({ code: 400, msg: 'Gagal mengupload, coba lagi!', status: true })
-            setOpen(false)
-        });
+            APISTORE.StoreSikoja(data).then(result => {
+                // console.log(result.data);
+                setMessage({ code: 201, msg: "Laporan telah disampaikan", status: true });
+                for (let file of files) {
+                    const data2 = new FormData();
+                    data2.append('galery', file)
+                    data2.append('sikoja_id', result.data.id)
+                    APIUPLOAD.UploadGalery(data2).then(() => {
+                        setData({
+                            title: '',
+                            description: '',
+                            village_id: null,
+                            street_id: null,
+                            name: '',
+                            hp: null,
+                        });
+                        setFiles([]);
+                    }).catch(error => {
+                        setOpen(false)
+                        setMessage({ code: 400, msg: 'Gagal mengupload, coba lagi!', status: true })
+                    })
+                }
+                setOpen(false)
+            }).catch(error => {
+                setMessage({ code: 400, msg: 'Gagal mengupload, coba lagi!', status: true })
+                setOpen(false)
+            });
+        }
     }
 
     return (
@@ -155,7 +158,7 @@ const FormSikoja = () => {
                         <form onSubmit={handleOnSubmit}>
                             <CardContent>
                                 <Typograph text="SIKOJA" gutterBottom variant="h5" textTransform='uppercase' fontWeight='bold' sx={{ py: 2 }} />
-                                <Alert severity={message.code == 201 ? 'success' : 'error'} sx={{ mb: 2, display: `${message.status ? 'flex' : 'none'}` }} >{message.msg}</Alert>
+                                <Alert severity={message.code === 201 ? 'success' : 'error'} sx={{ mb: 2, display: `${message.status ? 'flex' : 'none'}` }} >{message.msg}</Alert>
                                 <FormControl fullWidth >
                                     <TextField required id="title" name='title' label="Judul Laporan Anda" variant="outlined" value={data.title} onChange={handleOnChange} />
                                     <TextField required id="description" name='description' multiline rows={4} label="Isi Laporan Anda" variant="outlined" value={data.description} onChange={handleOnChange} sx={{ mt: 2 }} />
