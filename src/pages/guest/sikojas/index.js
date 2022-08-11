@@ -45,7 +45,6 @@ const Sikojas = () => {
                 <Container maxWidth='lg'>
                     <form className='search' onSubmit={handleSubmit}>
                         <Paper
-                            component="form"
                             sx={{ px: 0, display: 'flex', bgcolor: 'primary.light', alignItems: 'center', width: '100%', mx: 'auto', my: 4 }}
                         >
                             <InputBase

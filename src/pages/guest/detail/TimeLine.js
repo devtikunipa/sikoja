@@ -84,7 +84,7 @@ const TimeLine = (props) => {
                     <TimelineDot color={dataDisp[0] ? (dataDisp[0].description ? 'success' : 'grey') : 'grey'} >
                         <PendingActionsIcon />
                     </TimelineDot>
-                    <TimelineConnector sx={{ bgcolor: dataSikoja[0].status_id === 4 ? 'blue.main' : 'grey' }} />
+                    <TimelineConnector sx={{ bgcolor: dataSikoja[0].status_id === 4 ? 'info.main' : 'grey' }} />
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: '12px', px: 2 }}>
                     <Typography component="span" color={dataDisp[0] ? (dataDisp[0].description ? 'primary' : 'text.secondary') : 'text.secondary'} fontWeight='bold'>
@@ -105,7 +105,7 @@ const TimeLine = (props) => {
                     {dataSikoja[0].status_id === 4 ? Moment(dataSikoja[0].updated_at) : ''}
                 </TimelineOppositeContent>
                 <TimelineSeparator>
-                    <TimelineDot color={dataSikoja[0].status_id === 4 ? 'blue' : 'grey'}>
+                    <TimelineDot color={dataSikoja[0].status_id === 4 ? 'info' : 'grey'}>
                         <CheckCircleOutlineIcon />
                     </TimelineDot>
                 </TimelineSeparator>

@@ -34,7 +34,7 @@ const GridItem = ({ dt }) => {
                 >
                     <CardHeader
                         title={<Typography variant="h6" fontWeight='bold' >
-                            {dt.title.slice(0, 60) + (dt.title.length > 60 ? '...' : '')}
+                            {dt.title.slice(0, 50) + (dt.title.length > 55 ? '...' : '')}
                         </Typography>}
                         subheader={<Typography variant="caption" color="text.secondary">
                             {Moment(dt.created_at)}
