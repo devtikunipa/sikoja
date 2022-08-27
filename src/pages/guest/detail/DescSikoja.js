@@ -12,7 +12,7 @@ const DescSikoja = (props) => {
     return (
         <Box>
             <Typography variant='h6' textTransform='capitalize' fontWeight='bold' color='primary.dark'> {dataSikoja[0].title}</Typography>
-            <Typography variant='subtitle1' color='grey.600' fontStyle='italic' paragraph>{Moment(dataSikoja[0].created_at)}, Oleh {dataSikoja[0].name}</Typography>
+            <Typography variant='subtitle1' color='grey.600' fontStyle='italic' paragraph textTransform='capitalize'>{Moment(dataSikoja[0].created_at)}, Oleh {dataSikoja[0].name}</Typography>
             <Typography variant='body1' color='grey.900' >Keterangan: {dataSikoja[0].description}</Typography>
             <Typography variant='body1' color='grey.900'>Lokasi: {dataSikoja[0].village ? dataSikoja[0].village.village + ',' : ''}{dataSikoja[0].street ? dataSikoja[0].street.street : ''} </Typography>
             <ImageList
