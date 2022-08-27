@@ -59,7 +59,7 @@ const FormSikoja = () => {
         maxSize: 10240000,
         minSize: 1,
         noClick: true,
-        useFsAccessApi: false
+        useFsAccessApi: true
     });
 
     const thumbs = files.map(file => {
