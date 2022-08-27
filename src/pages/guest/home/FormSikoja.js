@@ -23,6 +23,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import APIUPLOAD from '../../../services/axios/Upload';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import LoadingBackDrop from '../../../components/LoadingBackDrop';
+import AlertSnackbar from '../../../components/AlertSnackbar';
 
 
 const FormSikoja = () => {
@@ -39,11 +41,13 @@ const FormSikoja = () => {
     const [data, setData] = useState(initialDataState);
     const [streets, setStreets] = useState([]);
     const [villages, setVillages] = useState([]);
-    const [message, setMessage] = useState({ msg: 'Belum ada aktivitas', status: false, code: 201 });
-    const [open, setOpen] = useState(false);
+    const [openBackdrop, setOpenBackdrop] = useState(false);
+    const [message, setMessage] = useState('Belum ada aktivitas!');
+    const [codeStatus, setCodeStatus] = useState(true);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
     const [checked, setChecked] = useState(false);
     const [files, setFiles] = useState([]);
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    const { getRootProps, isDragActive } = useDropzone({
         onDrop: acceptedFiles => {
             setFiles(acceptedFiles.map(file => Object.assign(file, {
                 preview: URL.createObjectURL(file)
@@ -116,10 +120,12 @@ const FormSikoja = () => {
         if (files.length === 0) {
             setMessage({ code: 400, msg: 'Upload gambar/video sebagai bukti pengaduan', status: true })
         } else {
-            setOpen(true)
+            setOpenBackdrop(true)
             APISTORE.StoreSikoja(data).then(result => {
                 // console.log(result.data);
-                setMessage({ code: 201, msg: "Laporan telah disampaikan", status: true });
+                setMessage("Laporan telah disampaikan");
+                setCodeStatus(true);
+                setOpenSnackbar(true)
                 for (let file of files) {
                     const data2 = new FormData();
                     data2.append('galery', file)
@@ -133,16 +139,24 @@ const FormSikoja = () => {
                             name: '',
                             hp: null,
                         });
-                        setFiles([]);
-                    }).catch(error => {
-                        setOpen(false)
-                        setMessage({ code: 400, msg: 'Gagal mengupload, coba lagi!', status: true })
+                        setMessage('Dokumentasi telah diupload!')
+                        setCodeStatus(true)
+                        setOpenSnackbar(true)
+                        setTimeout(() => {
+                            window.location.reload()
+                        }, 2000)
+                    }).catch(() => {
+                        setMessage('Gagal mengupload gambar!')
+                        setCodeStatus(false)
+                        setOpenSnackbar(true)
+                        setOpenBackdrop(false)
                     })
                 }
-                setOpen(false)
-            }).catch(error => {
-                setMessage({ code: 400, msg: 'Gagal mengupload, coba lagi!', status: true })
-                setOpen(false)
+            }).catch(() => {
+                setMessage('Gagal menyimpan laporan, coba lagi!')
+                setCodeStatus(false)
+                setOpenSnackbar(true)
+                setOpenBackdrop(false)
             });
         }
     }
@@ -155,12 +169,8 @@ const FormSikoja = () => {
 
     return (
         <Container maxWidth="lg" sx={{ mx: "auto", mt: 6 }}>
-            <Backdrop
-                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                open={open}
-            >
-                <CircularProgress color="inherit" />
-            </Backdrop>
+            <LoadingBackDrop open={openBackdrop} onClick={() => setOpenBackdrop(true)} />
+            <AlertSnackbar message={message} status={codeStatus} opensnackbar={openSnackbar} setOpensnackbar={setOpenSnackbar} />
             <Grid container>
                 <Grid item align='center' lg={8} xs={12} sm={12} md={10} sx={{ mx: 'auto' }}>
                     <Card
@@ -209,7 +219,7 @@ const FormSikoja = () => {
                                             variant="text"
                                             component="label"
                                         >
-                                            Upload File
+                                            Upload
                                             <input
                                                 type="file"
                                                 hidden
@@ -222,7 +232,7 @@ const FormSikoja = () => {
                                             {isDragActive ? (
                                                 <Typograph variant='subtitle1' text='Drop disini..' color='primary.main' />
                                             ) : (
-                                                <Typograph variant='subtitle1' text='Drag & Drop atau klik untuk memilih gambar..' />
+                                                <Typograph variant='subtitle1' text='Drag & Drop atau klik Upload untuk memilih gambar..' />
                                             )}
                                         </div>
                                     </Paper>
