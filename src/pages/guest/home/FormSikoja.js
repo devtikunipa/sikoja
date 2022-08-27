@@ -23,9 +23,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import LoadingBackDrop from '../../../components/LoadingBackDrop';
 import AlertSnackbar from '../../../components/AlertSnackbar';
+import { useNavigate } from 'react-router-dom';
 
 
 const FormSikoja = () => {
+    const navigate = useNavigate();
     const initialDataState = {
         title: '',
         description: '',
@@ -35,7 +37,6 @@ const FormSikoja = () => {
         hp: null,
 
     }
-
     const [data, setData] = useState(initialDataState);
     const [streets, setStreets] = useState([]);
     const [villages, setVillages] = useState([]);
@@ -117,6 +118,27 @@ const FormSikoja = () => {
         }
     };
 
+    const save = async () => {
+        try {
+            const result = await APISTORE.StoreSikoja(data);
+            await Promise.all(files.map(async (file) => {
+                const data2 = new FormData();
+                data2.append('galery', file)
+                data2.append('sikoja_id', result.data.id)
+                await APIUPLOAD.UploadGalery(data2)
+            }))
+            setMessage("Laporan telah disampaikan");
+            setCodeStatus(true);
+            setOpenSnackbar(true);
+            navigate(`/detail/${result.data.id}`);
+        } catch (e) {
+            setMessage('Gagal menyimpan laporan, coba lagi!')
+            setCodeStatus(false)
+            setOpenSnackbar(true)
+            setOpenBackdrop(false)
+        }
+    }
+
     const handleOnSubmit = (event) => {
         event.preventDefault();
         if (files.length === 0) {
@@ -125,43 +147,7 @@ const FormSikoja = () => {
             setOpenSnackbar(true)
         } else {
             setOpenBackdrop(true)
-            APISTORE.StoreSikoja(data).then(result => {
-                // console.log(result.data);
-                setMessage("Laporan telah disampaikan");
-                setCodeStatus(true);
-                setOpenSnackbar(true)
-                for (let file of files) {
-                    const data2 = new FormData();
-                    data2.append('galery', file)
-                    data2.append('sikoja_id', result.data.id)
-                    APIUPLOAD.UploadGalery(data2).then(() => {
-                        setData({
-                            title: '',
-                            description: '',
-                            village_id: null,
-                            street_id: null,
-                            name: '',
-                            hp: null,
-                        });
-                        setMessage('Dokumentasi telah diupload!')
-                        setCodeStatus(true)
-                        setOpenSnackbar(true)
-                        setTimeout(() => {
-                            window.location.reload()
-                        }, 2000)
-                    }).catch(() => {
-                        setMessage('Gagal mengupload gambar!')
-                        setCodeStatus(false)
-                        setOpenSnackbar(true)
-                        setOpenBackdrop(false)
-                    })
-                }
-            }).catch(() => {
-                setMessage('Gagal menyimpan laporan, coba lagi!')
-                setCodeStatus(false)
-                setOpenSnackbar(true)
-                setOpenBackdrop(false)
-            });
+            save()
         }
     }
     const handleChangeFile = (e) => {
@@ -232,7 +218,6 @@ const FormSikoja = () => {
                                             />
                                         </Button>
                                         <div style={{ padding: '20px', height: 'auto' }} {...getRootProps()}>
-                                            {/* <Input {...getInputProps()} /> */}
                                             {isDragActive ? (
                                                 <Typograph variant='subtitle1' text='Drop disini..' color='primary.main' />
                                             ) : (
