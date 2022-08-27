@@ -22,7 +22,6 @@ import ImageListItem from '@mui/material/ImageListItem';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import APIUPLOAD from '../../../services/axios/Upload';
-import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
@@ -58,7 +57,8 @@ const FormSikoja = () => {
         },
         maxFiles: 4,
         maxSize: 10240000,
-
+        minSize: 1,
+        noClick: false,
     });
 
     const thumbs = files.map(file => {
@@ -82,10 +82,12 @@ const FormSikoja = () => {
 
     useEffect(() => {
         APIGETALL.Streets().then(result => {
-            setStreets(result.data)
+            const dataStreets = result.data.sort((a, b) => (a.street > b.street) ? 1 : ((b.street > a.street) ? -1 : 0))
+            setStreets(dataStreets)
         });
         APIGETALL.Villages().then(result => {
-            setVillages(result.data)
+            const dataVillages = result.data.sort((a, b) => (a.village > b.village) ? 1 : ((b.village > a.village) ? -1 : 0))
+            setVillages(dataVillages)
         });
     }, []);
 
@@ -104,6 +106,9 @@ const FormSikoja = () => {
     }
     const handleChecked = (event) => {
         setChecked(event.target.checked);
+        if (event.target.checked === true) {
+            setData({ ...data, street_id: null })
+        }
     };
 
     const handleOnSubmit = (event) => {
@@ -218,7 +223,7 @@ const FormSikoja = () => {
                                 </FormControl>
                             </CardContent>
                             <CardActions sx={{ px: 2, pb: 4, pt: 1 }}>
-                                <Button fullWidth type='submit' variant='contained' onClick={() => { }}>Lapor</Button>
+                                <Button fullWidth size='large' type='submit' variant='contained' sx={{ fontSize: 18 }}>Lapor</Button>
                             </CardActions>
                         </form>
                     </Card>
