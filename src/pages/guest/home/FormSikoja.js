@@ -44,7 +44,7 @@ const FormSikoja = () => {
     const [open, setOpen] = useState(false);
     const [checked, setChecked] = useState(false);
     const [files, setFiles] = useState([]);
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    const { getRootProps, getInputProps, isDragActive, open: opendropzone } = useDropzone({
         onDrop: acceptedFiles => {
             setFiles(acceptedFiles.map(file => Object.assign(file, {
                 preview: URL.createObjectURL(file)
@@ -58,7 +58,7 @@ const FormSikoja = () => {
         maxFiles: 4,
         maxSize: 10240000,
         minSize: 1,
-        noClick: false,
+        noClick: true,
     });
 
     const thumbs = files.map(file => {
@@ -199,12 +199,13 @@ const FormSikoja = () => {
                                         </Grid>
                                     </Grid>
                                     <Paper sx={{ cursor: 'pointer', background: '#fafafa', color: '#bdbdbd', border: '1px dashed #ccc', '&:hover': { border: '1px solid #ccc' }, mt: 2 }}>
-                                        <div style={{ padding: '20px', height: 'auto', position: "relative" }} {...getRootProps({ onClick: evt => evt.preventDefault() })}>
+                                        <div style={{ padding: '20px', height: 'auto', position: "relative" }} {...getRootProps()}>
                                             <Input {...getInputProps()} />
+                                            <Button type="button" onClick={opendropzone}>Upload</Button>
                                             {isDragActive ? (
                                                 <Typograph variant='subtitle1' text='Drop disini..' color='primary.main' />
                                             ) : (
-                                                <Typograph variant='subtitle1' text='Drag & Drop atau klik untuk memilih gambar..' />
+                                                <Typograph variant='subtitle1' text='Drag & Drop atau klik upload untuk memilih gambar..' />
                                             )}
                                         </div>
                                     </Paper>
