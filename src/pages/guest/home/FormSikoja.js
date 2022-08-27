@@ -199,7 +199,7 @@ const FormSikoja = () => {
                                         </Grid>
                                     </Grid>
                                     <Paper sx={{ cursor: 'pointer', background: '#fafafa', color: '#bdbdbd', border: '1px dashed #ccc', '&:hover': { border: '1px solid #ccc' }, mt: 2 }}>
-                                        <div style={{ padding: '20px', height: 'auto', position: "relative" }} {...getRootProps({ className: 'dropzone', onClick: evt => evt.preventDefault() })}>
+                                        <div style={{ padding: '20px', height: 'auto', position: "relative" }} {...getRootProps({ className: 'dropzone', onClick: event => event.preventDefault() })}>
                                             <Input {...getInputProps()} />
                                             <Button type="button" onClick={open}>Upload</Button>
                                             {isDragActive ? (
@@ -209,18 +209,16 @@ const FormSikoja = () => {
                                             )}
                                         </div>
                                     </Paper>
-                                    {files.length !== null ? (
-                                        <Container >
-                                            <ImageList
-                                                sx={{ width: '100', height: 'auto' }}
-                                                variant="quilted"
-                                                cols={4}
-                                                rowHeight={121}
-                                            >
-                                                {thumbs}
-                                            </ImageList>
-                                        </Container>
-                                    ) : null}
+                                    <Container >
+                                        <ImageList
+                                            sx={{ width: '100', height: 'auto' }}
+                                            variant="quilted"
+                                            cols={4}
+                                            rowHeight={121}
+                                        >
+                                            {thumbs}
+                                        </ImageList>
+                                    </Container>
                                 </FormControl>
                             </CardContent>
                             <CardActions sx={{ px: 2, pb: 4, pt: 1 }}>
