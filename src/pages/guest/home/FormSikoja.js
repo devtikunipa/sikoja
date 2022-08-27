@@ -199,7 +199,7 @@ const FormSikoja = () => {
                                         </Grid>
                                     </Grid>
                                     <Paper sx={{ cursor: 'pointer', background: '#fafafa', color: '#bdbdbd', border: '1px dashed #ccc', '&:hover': { border: '1px solid #ccc' }, mt: 2 }}>
-                                        <div style={{ padding: '20px', height: 'auto', position: "relative" }} {...getRootProps({ className: 'dropzone' })}>
+                                        <div style={{ padding: '20px', height: 'auto', position: "relative" }} {...getRootProps({ className: 'dropzone', onClick: evt => evt.preventDefault() })}>
                                             <Input {...getInputProps()} />
                                             <Button type="button" onClick={open}>Upload</Button>
                                             {isDragActive ? (
