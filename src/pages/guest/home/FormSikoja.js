@@ -11,7 +11,6 @@ import Typograph from '../../../components/Typograph';
 import APIGETALL from '../../../services/axios/GetAll';
 import Alert from '@mui/material/Alert';
 import APISTORE from '../../../services/axios/Store';
-import Input from '@mui/material/Input';
 import { useDropzone } from 'react-dropzone';
 import ReactPlayer from 'react-player';
 import Container from '@mui/material/Container';
@@ -58,7 +57,7 @@ const FormSikoja = () => {
         maxFiles: 4,
         maxSize: 10240000,
         minSize: 1,
-        noClick: false,
+        noClick: true,
         useFsAccessApi: true,
     });
 
@@ -147,6 +146,12 @@ const FormSikoja = () => {
             });
         }
     }
+    const handleChangeFile = (e) => {
+        const acceptedFiles = Object.values(e.target.files);
+        setFiles(acceptedFiles.map(file => Object.assign(file, {
+            preview: URL.createObjectURL(file)
+        })));
+    }
 
     return (
         <Container maxWidth="lg" sx={{ mx: "auto", mt: 6 }}>
@@ -199,9 +204,21 @@ const FormSikoja = () => {
                                             <TextField fullWidth required id="hp" name='hp' type='number' label="Nomor Hp Anda (08...)" variant="outlined" value={!data.hp ? '' : data.hp} onChange={handleOnChange} />
                                         </Grid>
                                     </Grid>
-                                    <Paper sx={{ cursor: 'pointer', background: '#fafafa', color: '#bdbdbd', border: '1px dashed #ccc', '&:hover': { border: '1px solid #ccc' }, mt: 2 }}>
+                                    <Paper sx={{ cursor: 'pointer', background: '#fafafa', color: '#bdbdbd', border: '1px dashed #ccc', '&:hover': { border: '1px solid #ccc' }, mt: 2, pt: 2 }}>
+                                        <Button
+                                            variant="text"
+                                            component="label"
+                                        >
+                                            Upload File
+                                            <input
+                                                type="file"
+                                                hidden
+                                                multiple
+                                                onChange={handleChangeFile}
+                                            />
+                                        </Button>
                                         <div style={{ padding: '20px', height: 'auto' }} {...getRootProps()}>
-                                            <Input {...getInputProps()} />
+                                            {/* <Input {...getInputProps()} /> */}
                                             {isDragActive ? (
                                                 <Typograph variant='subtitle1' text='Drop disini..' color='primary.main' />
                                             ) : (
