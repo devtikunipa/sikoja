@@ -41,7 +41,7 @@ const FormSikoja = () => {
     const [streets, setStreets] = useState([]);
     const [villages, setVillages] = useState([]);
     const [message, setMessage] = useState({ msg: 'Belum ada aktivitas', status: false, code: 201 });
-    const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [checked, setChecked] = useState(false);
     const [files, setFiles] = useState([]);
     const { getRootProps, getInputProps, isDragActive, open: opendropzone } = useDropzone({
@@ -116,7 +116,7 @@ const FormSikoja = () => {
         if (files.length === 0) {
             setMessage({ code: 400, msg: 'Upload gambar/video sebagai bukti pengaduan', status: true })
         } else {
-            setOpen(true)
+            setLoading(true)
             APISTORE.StoreSikoja(data).then(result => {
                 // console.log(result.data);
                 setMessage({ code: 201, msg: "Laporan telah disampaikan", status: true });
@@ -135,14 +135,14 @@ const FormSikoja = () => {
                         });
                         setFiles([]);
                     }).catch(error => {
-                        setOpen(false)
+                        setLoading(false)
                         setMessage({ code: 400, msg: 'Gagal mengupload, coba lagi!', status: true })
                     })
                 }
-                setOpen(false)
+                setLoading(false)
             }).catch(error => {
                 setMessage({ code: 400, msg: 'Gagal mengupload, coba lagi!', status: true })
-                setOpen(false)
+                setLoading(false)
             });
         }
     }
@@ -151,7 +151,7 @@ const FormSikoja = () => {
         <Container maxWidth="lg" sx={{ mx: "auto", mt: 6 }}>
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                open={open}
+                open={loading}
             >
                 <CircularProgress color="inherit" />
             </Backdrop>
@@ -209,7 +209,7 @@ const FormSikoja = () => {
                                             )}
                                         </div>
                                     </Paper>
-                                    {files.length != 0 ? (
+                                    {files.length !== null ? (
                                         <Container >
                                             <ImageList
                                                 sx={{ width: '100', height: 'auto' }}
