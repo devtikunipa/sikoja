@@ -199,7 +199,7 @@ const FormSikoja = () => {
                                         </Grid>
                                     </Grid>
                                     <Paper sx={{ cursor: 'pointer', background: '#fafafa', color: '#bdbdbd', border: '1px dashed #ccc', '&:hover': { border: '1px solid #ccc' }, mt: 2 }}>
-                                        <div style={{ padding: '20px', height: 'auto' }} {...getRootProps()}>
+                                        <div style={{ padding: '20px', height: 'auto', position: "relative" }} {...getRootProps({ onClick: evt => evt.preventDefault() })}>
                                             <Input {...getInputProps()} />
                                             {isDragActive ? (
                                                 <Typograph variant='subtitle1' text='Drop disini..' color='primary.main' />
