@@ -18,8 +18,6 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import APIUPLOAD from '../../../services/axios/Upload';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -97,7 +95,11 @@ const FormSikoja = () => {
 
     const handleOnChange = (event) => {
         const { name, value } = event.target;
-        setData({ ...data, [name]: value });
+        if (name === 'hp' && value.toString().length > 12) {
+            setData({ ...data });
+        } else {
+            setData({ ...data, [name]: value });
+        }
         setMessage({ status: false });
     };
     const handleOnSelectedVillage = (event, newValue) => {
@@ -118,7 +120,9 @@ const FormSikoja = () => {
     const handleOnSubmit = (event) => {
         event.preventDefault();
         if (files.length === 0) {
-            setMessage({ code: 400, msg: 'Upload gambar/video sebagai bukti pengaduan', status: true })
+            setMessage("Silahkan upload gambar atau video sebagai bukti pengaduan!");
+            setCodeStatus(true);
+            setOpenSnackbar(true)
         } else {
             setOpenBackdrop(true)
             APISTORE.StoreSikoja(data).then(result => {
