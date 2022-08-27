@@ -44,7 +44,7 @@ const FormSikoja = () => {
     const [loading, setLoading] = useState(false);
     const [checked, setChecked] = useState(false);
     const [files, setFiles] = useState([]);
-    const { getRootProps, getInputProps, isDragActive, open: opendropzone } = useDropzone({
+    const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
         onDrop: acceptedFiles => {
             setFiles(acceptedFiles.map(file => Object.assign(file, {
                 preview: URL.createObjectURL(file)
@@ -199,9 +199,9 @@ const FormSikoja = () => {
                                         </Grid>
                                     </Grid>
                                     <Paper sx={{ cursor: 'pointer', background: '#fafafa', color: '#bdbdbd', border: '1px dashed #ccc', '&:hover': { border: '1px solid #ccc' }, mt: 2 }}>
-                                        <div style={{ padding: '20px', height: 'auto', position: "relative" }} {...getRootProps({className:'dropzone'})}>
+                                        <div style={{ padding: '20px', height: 'auto', position: "relative" }} {...getRootProps({ className: 'dropzone' })}>
                                             <Input {...getInputProps()} />
-                                            <Button type="button" onClick={opendropzone}>Upload</Button>
+                                            <Button type="button" onClick={open}>Upload</Button>
                                             {isDragActive ? (
                                                 <Typograph variant='subtitle1' text='Drop disini..' color='primary.main' />
                                             ) : (
