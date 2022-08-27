@@ -41,10 +41,10 @@ const FormSikoja = () => {
     const [streets, setStreets] = useState([]);
     const [villages, setVillages] = useState([]);
     const [message, setMessage] = useState({ msg: 'Belum ada aktivitas', status: false, code: 201 });
-    const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
     const [checked, setChecked] = useState(false);
     const [files, setFiles] = useState([]);
-    const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop: acceptedFiles => {
             setFiles(acceptedFiles.map(file => Object.assign(file, {
                 preview: URL.createObjectURL(file)
@@ -58,8 +58,8 @@ const FormSikoja = () => {
         maxFiles: 4,
         maxSize: 10240000,
         minSize: 1,
-        noClick: true,
-        useFsAccessApi: true
+        noClick: false,
+        useFsAccessApi: true,
     });
 
     const thumbs = files.map(file => {
@@ -117,7 +117,7 @@ const FormSikoja = () => {
         if (files.length === 0) {
             setMessage({ code: 400, msg: 'Upload gambar/video sebagai bukti pengaduan', status: true })
         } else {
-            setLoading(true)
+            setOpen(true)
             APISTORE.StoreSikoja(data).then(result => {
                 // console.log(result.data);
                 setMessage({ code: 201, msg: "Laporan telah disampaikan", status: true });
@@ -136,14 +136,14 @@ const FormSikoja = () => {
                         });
                         setFiles([]);
                     }).catch(error => {
-                        setLoading(false)
+                        setOpen(false)
                         setMessage({ code: 400, msg: 'Gagal mengupload, coba lagi!', status: true })
                     })
                 }
-                setLoading(false)
+                setOpen(false)
             }).catch(error => {
                 setMessage({ code: 400, msg: 'Gagal mengupload, coba lagi!', status: true })
-                setLoading(false)
+                setOpen(false)
             });
         }
     }
@@ -152,7 +152,7 @@ const FormSikoja = () => {
         <Container maxWidth="lg" sx={{ mx: "auto", mt: 6 }}>
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                open={loading}
+                open={open}
             >
                 <CircularProgress color="inherit" />
             </Backdrop>
@@ -200,26 +200,27 @@ const FormSikoja = () => {
                                         </Grid>
                                     </Grid>
                                     <Paper sx={{ cursor: 'pointer', background: '#fafafa', color: '#bdbdbd', border: '1px dashed #ccc', '&:hover': { border: '1px solid #ccc' }, mt: 2 }}>
-                                        <div style={{ padding: '20px', height: 'auto', position: "relative" }} {...getRootProps({ className: 'dropzone', onClick: event => event.preventDefault() })}>
+                                        <div style={{ padding: '20px', height: 'auto' }} {...getRootProps()}>
                                             <Input {...getInputProps()} />
-                                            <Button type="button" onClick={open}>Upload</Button>
                                             {isDragActive ? (
                                                 <Typograph variant='subtitle1' text='Drop disini..' color='primary.main' />
                                             ) : (
-                                                <Typograph variant='subtitle1' text='Drag & Drop atau klik upload untuk memilih gambar..' />
+                                                <Typograph variant='subtitle1' text='Drag & Drop atau klik untuk memilih gambar..' />
                                             )}
                                         </div>
                                     </Paper>
-                                    <Container >
-                                        <ImageList
-                                            sx={{ width: '100', height: 'auto' }}
-                                            variant="quilted"
-                                            cols={4}
-                                            rowHeight={121}
-                                        >
-                                            {thumbs}
-                                        </ImageList>
-                                    </Container>
+                                    {files.length != 0 ? (
+                                        <Container >
+                                            <ImageList
+                                                sx={{ width: '100', height: 'auto' }}
+                                                variant="quilted"
+                                                cols={4}
+                                                rowHeight={121}
+                                            >
+                                                {thumbs}
+                                            </ImageList>
+                                        </Container>
+                                    ) : null}
                                 </FormControl>
                             </CardContent>
                             <CardActions sx={{ px: 2, pb: 4, pt: 1 }}>
