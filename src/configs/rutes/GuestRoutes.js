@@ -7,7 +7,6 @@ const Home = Loadable(React.lazy(() => import('../../pages/guest/home')));
 const About = Loadable(React.lazy(() => import('../../pages/guest/about')));
 const Sikojas = Loadable(React.lazy(() => import('../../pages/guest/sikojas')));
 const Detail = Loadable(React.lazy(() => import('../../pages/guest/detail')));
-const NotFound = Loadable(React.lazy(() => import('../../pages/guest/error/NotFound')));
 
 
 const GuestRoutes = {
@@ -34,10 +33,6 @@ const GuestRoutes = {
                     element: <Detail />
                 }
             ]
-        },
-        {
-            path: '*',
-            element: <NotFound />
         },
     ]
 }

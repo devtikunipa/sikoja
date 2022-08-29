@@ -17,21 +17,17 @@ const Detail = () => {
     useEffect(() => {
         APIGETONE.SikojaOne(params.id).then(result => {
             setSikoja(result.data);
-            setIsLoading(false);
-        }).catch(error => {
-            // console.log(error);
-            setIsLoading(true);
+        }).then(() => {
+            APIGETONE.DispOne(params.id).then(result => {
+                setDisposisi(result.data);
+            })
+        }).catch(() => {
+            setDisposisi(null);
+        }).finally(() => {
+            setIsLoading(false)
         });
     }, []);
 
-    useEffect(() => {
-        APIGETONE.DispOne(params.id).then(result => {
-            setDisposisi(result.data);
-            setIsLoading(false);
-        }).catch(error => {
-            // console.log(error);
-        });
-    }, []);
 
     return (
         <>

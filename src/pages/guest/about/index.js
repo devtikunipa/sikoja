@@ -10,7 +10,7 @@ const About = () => {
         <>
             <Container maxWidth='lg'>
                 <Typograph text='SIKOJA' variant='h4' component='h3' textTransform='uppercase' fontWeight='bold' sx={{ mt: 4, mb: 1 }} />
-                <Typograph text='(Sistem Informasi Pengaduan Kerusakan Jalan)' variant='h6' sx={{ mb: 4 }} />
+                <Typograph text='(Sistem Informasi Pengaduan Kondisi Kerusakan Jalan)' variant='h6' sx={{ mb: 4 }} />
                 <Box
                     sx={{
                         backgroundImage: `url(${Sikoja})`,
@@ -24,7 +24,7 @@ const About = () => {
                         mb: 3
                     }}
                 />
-                <Typograph variant='body1' paragraph align='justify' text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit quasi, aliquam facere, perspiciatis voluptate quia illo nihil, non tenetur perferendis beatae maxime? Vitae, quo assumenda. Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit quasi, aliquam facere, perspiciatis voluptate quia illo nihil, non tenetur perferendis beatae maxime? Vitae, quo assumenda. Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, sint!' textTransform='none' />
+                <Typograph variant='body1' paragraph align='justify' text='SIKOJA merupakan metode pelayanan Pananganan Kondisi Kerusakan Jalan berbasis Aplikasi dapat membantu masyarakat merespon penanganan dan mengambil langkah efektif sesuai dengan kewenangan penanganannya. Diharapkan aplikasi tersebut dapat meningkatkan kepercayaan dan kinerja pemerintah kepada masyarakat khususnya pada bidang jalan.' textTransform='none' />
             </Container>
             <Container maxWidth='100' sx={{ mt: 4, pt: 4, pb: 2, backgroundColor: 'primary.light' }}>
                 <Footer />
