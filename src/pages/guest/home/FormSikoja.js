@@ -168,7 +168,7 @@ const FormSikoja = () => {
                     >
                         <form onSubmit={handleOnSubmit}>
                             <CardContent>
-                                <Typograph text="SIKOJA" gutterBottom variant="h5" textTransform='uppercase' fontWeight='bold' sx={{ py: 2 }} />
+                                <Typograph text="SIKOJA MANOKWARI" gutterBottom variant="h5" textTransform='uppercase' fontWeight='bold' sx={{ py: 2 }} />
                                 <Alert severity={message.code === 201 ? 'success' : 'error'} sx={{ mb: 2, display: `${message.status ? 'flex' : 'none'}` }} >{message.msg}</Alert>
                                 <FormControl fullWidth >
                                     <TextField required id="title" name='title' label="Judul Laporan Anda" variant="outlined" value={data.title} onChange={handleOnChange} />

@@ -25,7 +25,7 @@ const DescSikoja = (props) => {
                 {
                     dataSikoja[0].galery.map((galery) => {
                         const extension = galery.filename.split('.')
-                        if (extension[1] === 'mp4') {
+                        if (extension[extension.length - 1] === 'mp4' || extension[extension.length - 1] === 'mov') {
                             return (
                                 <ReactPlayer key={galery.id} height='auto' width='100%' controls url={URLROOT + galery.path} playing={true} />
 

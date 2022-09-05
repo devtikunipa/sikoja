@@ -45,7 +45,7 @@ const GridItem = ({ dt }) => {
                         dt.galery.map((paths, index) => {
                             if (index === 0) {
                                 const name = paths.filename.split(".");
-                                if (name[1] === 'mp4') {
+                                if (name[name.length - 1] === 'mp4' || name[name.length - 1] === 'mov') {
                                     return (
                                         <ReactPlayer key={index} height='100%' width='100%' controls url={URLROOT + paths.path} playing={true} />
                                     )
